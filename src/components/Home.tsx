@@ -10,9 +10,8 @@ export const Home = () => {
           <DarkModeButton />
         </Group>
         <Title align="center">What's Popular?</Title>
-        <Container size="md">
-          <MovieCard />
-        </Container>
+
+        <MovieCard />
       </Stack>
     </>
   );

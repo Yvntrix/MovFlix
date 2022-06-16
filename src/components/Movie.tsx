@@ -32,7 +32,6 @@ export const Movie = () => {
       .get(BASE_URL + id + API_KEY)
       .then(async (res) => {
         datas.push(res.data);
-        console.log(res.data);
         setDetails(datas);
         setLoading(false);
       })
@@ -60,9 +59,10 @@ export const Movie = () => {
             <div key={idx}>
               <BackgroundImage
                 sx={{ zIndex: 1, minHeight: height }}
-                src={BG_URL + info.backdrop_path}
+                src={info.backdrop_path == null ? "https://www.globalpharmatek.com/wp-content/uploads/2016/10/orionthemes-placeholder-image.jpg" 
+                :BG_URL + info.backdrop_path}
               >
-                <Overlay opacity={0.5} color="#000" zIndex={1} />
+                <Overlay opacity={0.6} color="#000" zIndex={1} />
                 <Center sx={{ minHeight: height }}>
                   <Stack align="center" p="md">
                     <Group sx={{ zIndex: 3 }} position="center">
