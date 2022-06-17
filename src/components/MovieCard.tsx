@@ -15,6 +15,7 @@ import { IconChevronLeft, IconChevronRight } from "@tabler/icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export const MovieCard = () => {
   const [page, setPage] = useLocalStorage({
@@ -27,7 +28,7 @@ export const MovieCard = () => {
   const { height, width } = useViewportSize();
   const API_KEY = "api_key=9e65816b3f3d83bf8de27dd4de9ec9f3";
   const BASE_URL = "https://api.themoviedb.org/3";
-  const IMG_URL = "https://image.tmdb.org/t/p/w500";
+  const IMG_URL = "https://image.tmdb.org/t/p/w342";
   const POPULAR =
     BASE_URL + "/movie/popular?" + API_KEY + "&language=en-US&page=";
   let datas: any[] = [];
@@ -35,7 +36,7 @@ export const MovieCard = () => {
     getMovies();
   }, [page]);
 
-  function getMovies() {
+  async function getMovies() {
     setLoading(true);
     setValue(page);
     datas = [];
@@ -45,12 +46,12 @@ export const MovieCard = () => {
         .then(async (result) => {
           const res = await result.data.results;
           for (let i in res) {
-            datas.push(res[i]);
+            datas.push(await res[i]);
           }
           setData(datas);
           setTimeout(() => {
             setLoading(false);
-          }, 400);
+          }, 700);
         })
         .catch(function (error) {
           // handle error
@@ -72,7 +73,6 @@ export const MovieCard = () => {
             variant="outline"
             onClick={() => {
               setPage(page - 1);
-              getMovies();
             }}
           >
             <IconChevronLeft size={16} />
@@ -94,7 +94,6 @@ export const MovieCard = () => {
             variant="outline"
             onClick={() => {
               setPage(page + 1);
-              getMovies();
             }}
           >
             <IconChevronRight size={16} />
@@ -117,29 +116,40 @@ export const MovieCard = () => {
             {data.map((info, idx) => {
               return (
                 <Grid.Col span={6} sm={4} md={3} lg={2.3} key={idx}>
-                  <Paper
-                    sx={(theme) => ({
-                      transition: " transform .2s",
-                      "&:hover": {
-                        transform: " scale(1.05)",
-                      },
-                    })}
-                    shadow="xl"
-                    radius="md"
-                    withBorder
+                  <motion.div
+                    initial={{ opacity: 0, y: 50, scale: 0.3 }}
+                    animate={{  opacity: 1, y: 0, scale: 1 }}
+                    transition={{
+                      duration: 0.1,
+                      delay: idx * 0.07,
+                      type: "tween",
+                    }}
                   >
-                    <Link to={`/movies/${info.id}`}>
-                      <Card radius="md" withBorder p="xl">
-                        <Card.Section>
-                          <Image
-                            src={IMG_URL + info.poster_path}
-                            height={360}
-                            alt={info.title}
-                          />
-                        </Card.Section>
-                      </Card>
-                    </Link>
-                  </Paper>
+                    <Paper
+                      sx={(theme) => ({
+                        transition: " transform .2s",
+                        "&:hover": {
+                          transform: " scale(1.05)",
+                        },
+                      })}
+                      shadow="xl"
+                      radius="md"
+                      withBorder
+                    >
+                      <Link to={`/movies/${info.id}`}>
+                        <Card radius="md" withBorder p="xl">
+                          <Card.Section>
+                            <Image
+                              src={IMG_URL + info.poster_path}
+                              height={360}
+                              withPlaceholder
+                              alt={info.title}
+                            />
+                          </Card.Section>
+                        </Card>
+                      </Link>
+                    </Paper>
+                  </motion.div>
                 </Grid.Col>
               );
             })}

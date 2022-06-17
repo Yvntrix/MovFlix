@@ -21,7 +21,7 @@ import { useParams } from "react-router-dom";
 const API_KEY =
   "?api_key=9e65816b3f3d83bf8de27dd4de9ec9f3&language=en-US&append_to_response=videos";
 const BASE_URL = "https://api.themoviedb.org/3/movie/";
-const IMG_URL = "https://image.tmdb.org/t/p/w500";
+const IMG_URL = "https://image.tmdb.org/t/p/w342";
 const BG_URL = "https://image.tmdb.org/t/p/w1280";
 
 export const Movie = () => {
@@ -37,7 +37,9 @@ export const Movie = () => {
       .then(async (res) => {
         datas.push(res.data);
         setDetails(datas);
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 800);
       })
       .catch(function (error) {
         // handle error
