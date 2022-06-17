@@ -8,6 +8,7 @@ import {
   Loader,
   NumberInput,
   Paper,
+  Stack,
 } from "@mantine/core";
 import { useLocalStorage, useViewportSize } from "@mantine/hooks";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons";
@@ -64,43 +65,46 @@ export const MovieCard = () => {
   }
   return (
     <>
-      <Group position="center" p="md">
+      <Stack align="center" spacing="xs" pb="xs">
+        <Group position="center" align="center">
+          <ActionIcon
+            disabled={page == 1}
+            variant="outline"
+            onClick={() => {
+              setPage(page - 1);
+              getMovies();
+            }}
+          >
+            <IconChevronLeft size={16} />
+          </ActionIcon>
+
+          <NumberInput
+            style={{ width: 65 }}
+            min={0}
+            max={500}
+            hideControls
+            defaultValue={1}
+            value={value}
+            onChange={(val) => {
+              inputPage(val);
+              setValue(val);
+            }}
+          />
+          <ActionIcon
+            variant="outline"
+            onClick={() => {
+              setPage(page + 1);
+              getMovies();
+            }}
+          >
+            <IconChevronRight size={16} />
+          </ActionIcon>
+        </Group>
         <span>
           Page <strong>{page} of 500</strong>
         </span>
-        <ActionIcon
-          disabled={page == 1}
-          variant="outline"
-          onClick={() => {
-            setPage(page - 1);
-            getMovies();
-          }}
-        >
-          <IconChevronLeft size={16} />
-        </ActionIcon>
+      </Stack>
 
-        <NumberInput
-          style={{ width: 65 }}
-          min={0}
-          max={500}
-          hideControls
-          defaultValue={1}
-          value={value}
-          onChange={(val) => {
-            inputPage(val);
-            setValue(val);
-          }}
-        />
-        <ActionIcon
-          variant="outline"
-          onClick={() => {
-            setPage(page + 1);
-            getMovies();
-          }}
-        >
-          <IconChevronRight size={16} />
-        </ActionIcon>
-      </Group>
       {loading ? (
         <>
           <Center sx={{ minHeight: height }}>
@@ -109,10 +113,10 @@ export const MovieCard = () => {
         </>
       ) : (
         <>
-          <Grid justify="center" align="center" p="xl">
+          <Grid justify="center" align="center">
             {data.map((info, idx) => {
               return (
-                <Grid.Col xs={6} md={4} lg={2.3} key={idx}>
+                <Grid.Col span={6} sm={4} md={3} lg={2.3} key={idx}>
                   <Paper
                     sx={(theme) => ({
                       transition: " transform .2s",
