@@ -118,9 +118,9 @@ export const MovieCard = () => {
                 <Grid.Col span={6} sm={4} md={3} lg={2.3} key={idx}>
                   <motion.div
                     initial={{ opacity: 0, y: 50, scale: 0.3 }}
-                    animate={{  opacity: 1, y: 0, scale: 1 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{
-                      duration: 0.1,
+                      duration: 0.09,
                       delay: idx * 0.07,
                       type: "tween",
                     }}
